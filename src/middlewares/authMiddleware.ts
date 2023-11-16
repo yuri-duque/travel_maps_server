@@ -7,9 +7,9 @@ export interface CustomRequest extends Request {
   token: string | JwtPayload;
 }
 
-export const authUser = async (req: Request, res: Response, next: NextFunction) => {
+export const authUser = (req: Request, res: Response, next: NextFunction) => {
   try {
-    const decoded = await auth(req, res);
+    const decoded = auth(req, res);
 
     if (decoded?.roles.some((role: string) => role === Role.user)) {
       next();
@@ -22,9 +22,9 @@ export const authUser = async (req: Request, res: Response, next: NextFunction) 
   }
 };
 
-export const authAdmin = async (req: Request, res: Response, next: NextFunction) => {
+export const authAdmin = (req: Request, res: Response, next: NextFunction) => {
   try {
-    const decoded = await auth(req, res);
+    const decoded = auth(req, res);
 
     if (decoded?.roles.some((role: string) => role === Role.admin || role === Role.superAdmin)) {
       next();
@@ -37,9 +37,9 @@ export const authAdmin = async (req: Request, res: Response, next: NextFunction)
   }
 };
 
-export const authSuperAdmin = async (req: Request, res: Response, next: NextFunction) => {
+export const authSuperAdmin = (req: Request, res: Response, next: NextFunction) => {
   try {
-    const decoded = await auth(req, res);
+    const decoded = auth(req, res);
 
     if (decoded?.roles.some((role: string) => role === Role.superAdmin)) {
       next();
@@ -52,7 +52,7 @@ export const authSuperAdmin = async (req: Request, res: Response, next: NextFunc
   }
 };
 
-async function auth(req: Request, res: Response) {
+function auth(req: Request, res: Response) {
   try {
     const token = req.header("Authorization")?.replace("Bearer ", "");
 
@@ -60,7 +60,7 @@ async function auth(req: Request, res: Response) {
       throw new Error();
     }
 
-    const decoded = await verifyToken(token);
+    const decoded = verifyToken(token);
     (req as CustomRequest).token = {
       userId: decoded._id,
       email: decoded.email,
