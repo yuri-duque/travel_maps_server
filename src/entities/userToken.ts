@@ -1,7 +1,7 @@
-import { IBaseEntity } from "./baseEntity";
+import { BaseEntity } from "./baseEntity";
 
-export interface IUserToken extends IBaseEntity {
-  userId: string;
+export interface UserToken extends BaseEntity {
+  user_id: string;
   refreshToken: string;
   createdAt?: Date;
 }

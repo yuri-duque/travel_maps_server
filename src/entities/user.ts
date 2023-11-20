@@ -1,7 +1,7 @@
 import { Role } from "../enum";
-import { IBaseEntity } from "./baseEntity";
+import { BaseEntity } from "./baseEntity";
 
-export interface IUser extends IBaseEntity {
+export interface User extends BaseEntity {
   email: string;
   password: string;
   name: string;
