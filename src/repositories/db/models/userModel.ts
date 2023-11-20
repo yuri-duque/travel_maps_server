@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-import { IUser } from "../../../entities/user";
+import { User } from "../../../entities/user";
 import { Role } from "../../../enum";
 import { BaseModel } from "./baseModel";
 
@@ -17,8 +17,8 @@ const userSchema: Schema = new Schema(
   { versionKey: false, autoIndex: true },
 );
 
-export class UserModel extends BaseModel<IUser> {
-  async create(): Promise<mongoose.Model<IUser>> {
+export class UserModel extends BaseModel<User> {
+  async create(): Promise<mongoose.Model<User>> {
     return super.create("Users", userSchema);
   }
 }

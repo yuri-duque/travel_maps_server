@@ -1,7 +1,7 @@
 import { compare } from "bcrypt";
 
-import { IUser } from "../entities/user";
-import { IUserToken } from "../entities/userToken";
+import { User } from "../entities/user";
+import { UserToken } from "../entities/userToken";
 import UserRepository from "../repositories/userRepository";
 import UserTokenRepository from "../repositories/userTokenRepository";
 import CustomError from "../utils/customError";
@@ -52,7 +52,7 @@ export default class AuthService {
 
     if (!userToken) throw new CustomError("Refresh token inválido");
 
-    const user = await this.userRepository.getById(userToken.userId);
+    const user = await this.userRepository.getById(userToken.user_id);
 
     if (!user) throw new CustomError("Refresh token inválido");
 
@@ -63,14 +63,14 @@ export default class AuthService {
     return { token };
   }
 
-  async _updateRefreshToken(user: IUser, refreshToken: string) {
+  async _updateRefreshToken(user: User, refreshToken: string) {
     const existToken = await this.userTokenRepository.findOne(user._id as string);
 
     if (existToken) {
       await this.userTokenRepository.remove(user._id as string);
     }
 
-    const userToken: IUserToken = { userId: user._id as string, refreshToken };
+    const userToken: UserToken = { user_id: user._id as string, refreshToken };
 
     await this.userTokenRepository.create(userToken);
   }

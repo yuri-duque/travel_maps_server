@@ -1,4 +1,4 @@
-import { IUser } from "../entities/user";
+import { User } from "../entities/user";
 import { Role } from "../enum";
 import UserRepository from "../repositories/userRepository";
 import { encrypt } from "../utils/crypt";
@@ -25,7 +25,7 @@ export default class UserService {
     confirmPassword,
     name,
     roles = [Role.user],
-  }: CreateUserProps): Promise<IUser> {
+  }: CreateUserProps): Promise<User> {
     this._validateName(name);
     this._validateEmail(email);
     this._validatePassword(password);

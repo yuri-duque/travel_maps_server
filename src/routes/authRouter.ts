@@ -11,9 +11,6 @@ router.post("/auth/login", async (req: Request, res: Response) => {
 
     const { email, password } = req.body;
 
-    console.log("email", email);
-    console.log("password", password);
-
     const result = await authService.login({ email, password });
 
     res.success({ message: "Login success", data: result });
