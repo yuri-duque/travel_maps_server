@@ -4,14 +4,16 @@
   "description": "server to travel maps app",
   "main": "src/server.ts",
   "scripts": {
-    "dev": "yarn swagger & nodemon src/server.ts",
+    "dev": "nodemon src/server.ts",
     "start": "ts-node src/server.ts",
     "build": "yarn swagger && tsc --outDir public",
     "deploy": "node public/src/server.js",
     "swagger": "node swagger",
     "swagger:commit": "git add ./swagger/swagger_output.json",
     "lint": "eslint src/**/*.ts",
-    "lint:fix": "eslint src/**/*.ts --fix"
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "adb": "adb kill-server && adb start-server && adb reverse tcp:3001 tcp:3001",
+    "ngrok": "ngrok http 3001"
   },
   "dependencies": {
     "async": "^3.2.4",

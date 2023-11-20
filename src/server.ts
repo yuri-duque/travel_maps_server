@@ -6,12 +6,13 @@ import express from "express";
 import customResponse from "./middlewares/customErrorMiddleware";
 import authRouter from "./routes/authRouter";
 import defaultRouter from "./routes/defaultRouter";
+import markerRouter from "./routes/markerRouter";
 import userRouter from "./routes/userRouter";
 
 dotenv.config();
 
 const PORT = process.env.PORT || 4000;
-const HOSTNAME = process.env.HOSTNAME || "http://localhost";
+const HOSTNAME = "http://localhost";
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(customResponse);
 
 app.use("", defaultRouter);
 app.use("/api", authRouter);
+app.use("/api", markerRouter);
 app.use("/api", userRouter);
 
 app.use(function (req, res) {
