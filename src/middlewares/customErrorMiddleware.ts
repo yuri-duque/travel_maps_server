@@ -35,12 +35,7 @@ export default function responseMiddleware(
 
   response.error = ({ error, message, data }: ResponseErrorType) => {
     if (error instanceof CustomError) {
-      const body = {
-        status: "error",
-        message: error.message || message,
-        data,
-      };
-      return buildResponse(response, error.statusCode, body);
+      return buildResponse(response, error.statusCode, error.serializeErrors());
     }
 
     const body = {
