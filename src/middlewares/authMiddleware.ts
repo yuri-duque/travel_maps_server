@@ -1,10 +1,16 @@
 import { NextFunction, Request, Response } from "express";
-import { JwtPayload } from "jsonwebtoken";
 import { Role } from "../enum";
 import { verifyToken } from "../utils/jwt";
 
+interface UserTokenProps {
+  user_id: string;
+  email: string;
+  name: string;
+  roles: Role[];
+}
+
 export interface CustomRequest extends Request {
-  token: string | JwtPayload;
+  user: UserTokenProps;
 }
 
 export const authUser = (req: Request, res: Response, next: NextFunction) => {
@@ -61,12 +67,15 @@ function auth(req: Request, res: Response) {
     }
 
     const decoded = verifyToken(token);
-    (req as CustomRequest).token = {
-      userId: decoded._id,
+
+    const userTokenProps: UserTokenProps = {
+      user_id: decoded._id,
       email: decoded.email,
       name: decoded.name,
       roles: decoded.roles,
     };
+
+    (req as CustomRequest).user = userTokenProps;
 
     return decoded;
   } catch (err) {
